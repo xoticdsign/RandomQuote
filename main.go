@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/iancoleman/strcase"
 )
 
 type Quote struct {
@@ -37,8 +39,6 @@ func main() {
 	response, errReading := io.ReadAll(res.Body)
 	if errReading != nil {
 		log.Println("Failed to read response")
-	} else {
-
 	}
 
 	errUnmarshaling := json.Unmarshal(response, &quote)
@@ -47,7 +47,6 @@ func main() {
 	}
 
 	for _, output := range quote {
-		fmt.Printf("\nAuthor: %v\nCategory: %v\nQuote: %v\n", output.Author, output.Category, output.Text)
+		fmt.Printf("\nAuthor: %v\nCategory: %v\nQuote: %v\n", output.Author, strcase.ToCamel(output.Category), output.Text)
 	}
-
 }
